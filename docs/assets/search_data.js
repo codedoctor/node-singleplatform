@@ -1,0 +1,1 @@
+window.searchData = [{"t":"README.md","p":"README.md.html"},{"t":"LICENSE","p":"LICENSE.html"}]

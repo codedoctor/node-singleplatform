@@ -1,0 +1,54 @@
+{
+  "author": "Martin Wawrusch <martin@wawrusch.com> (http://martinatsunset.com)",
+  "name": "singleplatform",
+  "description": "ingleplatform.com API client",
+  "version": "0.2.0",
+  "main": "lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/codedoctor/node-singleplatform.git"
+  },
+  "bin": {},
+  "directories": {
+    "lib": "./lib",
+    "test": "./test"
+  },
+  "keywords": [
+    "mongohq",
+    "provisioning"
+  ],
+  "scripts": {
+    "prepublish": "node_modules/.bin/codo -i ./src -o ./docs;node_modules/.bin/grunt coffee",
+    "test": "node_modules/.bin/grunt coffee;NODE_ENV=test node_modules/.bin/mocha --timeout 10000 -R spec test/*.coffee",
+    "docs": "node_modules/.bin/codo -i ./src -o ./docs"
+  },
+  "engines": {},
+  "dependencies": {
+    "underscore": ">=1.5.2",
+    "request": ">=2.27.0",
+    "async" : ">=0.2.9"
+  },
+  "devDependencies": {
+    "coffee-script": "1.6.3",
+    "should": "2.0.2",
+    "mocha": "1.13.0",
+    "codo": "1.9.0",
+    "grunt": "0.4.1",
+    "grunt-cli": "0.1.9",
+    "grunt-contrib-clean": "0.5.0",
+    "grunt-contrib-copy": "0.4.1",
+    "grunt-contrib-watch": "0.5.3",
+    "grunt-release": "0.6.0",
+    "grunt-contrib-coffee": "0.7.0",
+    "nconf" : "0.6.8"
+  },
+  "bugs": {
+    "url": "http://github.com/codedoctor/node-singleplatform/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://github.com/codedoctor/node-singleplatform/raw/master/LICENSE"
+    }
+  ]
+}
