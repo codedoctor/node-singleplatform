@@ -61,3 +61,26 @@ describe 'WHEN loading the module', ->
       client.locations.getShortMenu 'haru-7', (err,data) ->
         console.log "RESULT: #{JSON.stringify(data)}"
         cb err
+
+    it 'should match stuff', (cb) ->
+      client = index.client(settings)
+      matchData = 
+        locations:[
+                "address":"2047 US Highway 45 Byp S Trenton TN 38382"
+                "name":"Dairy Queen"
+              ,
+                "address":"1125 W Riverdale Road Riverdale Utah"
+                "name":"Applebees Neighborhood Grill"
+              ,
+                "address":"15479 Hwy. One Marshall California"
+                "name":"Tomales Bay Oyster Company"
+              ,
+                "address":"1825 Washington Rd, Washington PA 15301"
+                "name":"Primo"
+          ]
+        matching_criteria:"NAME_ADDRESS"
+ 
+
+      client.locationMatch matchData, (err,data) ->
+        console.log "RESULT: #{JSON.stringify(data)}"
+        cb err
