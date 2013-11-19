@@ -17,15 +17,6 @@ npm test
 ### 0.2.0
 * First version
 
-## Internal Stuff
-
-docs
-test
-watch --> compiles, triggers test
-remove unused grunts
-release compiles first
-
-
 ## Stuff
 
 npm test
