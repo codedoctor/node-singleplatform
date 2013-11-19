@@ -44,4 +44,20 @@ describe 'WHEN loading the module', ->
         console.log "RESULT: #{JSON.stringify(data)}"
         cb err
 
+    it 'should return a location', (cb) ->
+      client = index.client(settings)
+      client.locations.get 'haru-7', (err,data) ->
+        console.log "RESULT: #{JSON.stringify(data)}"
+        cb err
 
+    it 'should return a menu', (cb) ->
+      client = index.client(settings)
+      client.locations.getMenu 'haru-7', (err,data) ->
+        console.log "RESULT: #{JSON.stringify(data)}"
+        cb err
+
+    it 'should return a short menu', (cb) ->
+      client = index.client(settings)
+      client.locations.getShortMenu 'haru-7', (err,data) ->
+        console.log "RESULT: #{JSON.stringify(data)}"
+        cb err

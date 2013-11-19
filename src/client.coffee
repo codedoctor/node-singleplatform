@@ -118,7 +118,7 @@ module.exports = client = (settings = {}) =>
       ###
       get: (locationId,cb) ->
         throw new Error "cb is a required parameter" unless cb
-        cb null
+        _invokeRequest "/locations/#{locationId}",{},cb
 
       ###
       Returns menu information for the specified location id.
@@ -127,16 +127,16 @@ module.exports = client = (settings = {}) =>
       ###
       getMenu: (locationId,cb) ->
         throw new Error "cb is a required parameter" unless cb
-        cb null
+        _invokeRequest "/locations/#{locationId}/menu",{},cb
 
       ###
       Returns short menu information for the specified location id.
       URI /locations/LOCATION/shortmenu
       @param [String] locationId The location id
       ###
-      getShortMenu: (location,cb) ->
+      getShortMenu: (locationId,cb) ->
         throw new Error "cb is a required parameter" unless cb
-        cb null
+        _invokeRequest "/locations/#{locationId}/shortmenu",{},cb
 
   return c # Explicit return for readability - I know, but there are a lot of Coffeescript newbies out there.
 
