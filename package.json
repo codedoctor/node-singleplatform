@@ -2,7 +2,7 @@
   "author": "Martin Wawrusch <martin@wawrusch.com> (http://martinatsunset.com)",
   "name": "singleplatform",
   "description": "ingleplatform.com API client",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "main": "lib/index.js",
   "repository": {
     "type": "git",
@@ -26,7 +26,7 @@
   "dependencies": {
     "underscore": ">=1.5.2",
     "request": ">=2.27.0",
-    "async" : ">=0.2.9"
+    "async": ">=0.2.9"
   },
   "devDependencies": {
     "coffee-script": "1.6.3",
@@ -40,7 +40,7 @@
     "grunt-contrib-watch": "0.5.3",
     "grunt-release": "0.6.0",
     "grunt-contrib-coffee": "0.7.0",
-    "nconf" : "0.6.8"
+    "nconf": "0.6.8"
   },
   "bugs": {
     "url": "http://github.com/codedoctor/node-singleplatform/issues"
