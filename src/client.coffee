@@ -101,7 +101,7 @@ module.exports = client = (settings = {}) =>
       @param [String] updatedSince For refresher queries. Format YYYY-MM-DD or  YYYY-MM-DDTHH:MM:SS NOTE: We do the URL encoding
       ###
       search: (q,page = 0,count = 20,updatedSince = null,cb) ->
-        throw new Error "cb is a required parameter" unless cb
+        throw new Error "cb is a required parameter" unless cb and typeof cb is 'function'
 
         queryString = 
           q : q
@@ -117,7 +117,7 @@ module.exports = client = (settings = {}) =>
       @param [String] locationId The location id
       ###
       get: (locationId,cb) ->
-        throw new Error "cb is a required parameter" unless cb
+        throw new Error "cb is a required parameter" unless cb and typeof cb is 'function'
         _invokeRequest "/locations/#{locationId}",{},cb
 
       ###
@@ -126,7 +126,7 @@ module.exports = client = (settings = {}) =>
       @param [String] locationId The location id
       ###
       getMenu: (locationId,cb) ->
-        throw new Error "cb is a required parameter" unless cb
+        throw new Error "cb is a required parameter" unless cb and typeof cb is 'function'
         _invokeRequest "/locations/#{locationId}/menu",{},cb
 
       ###
@@ -135,7 +135,7 @@ module.exports = client = (settings = {}) =>
       @param [String] locationId The location id
       ###
       getShortMenu: (locationId,cb) ->
-        throw new Error "cb is a required parameter" unless cb
+        throw new Error "cb is a required parameter" unless cb and typeof cb is 'function'
         _invokeRequest "/locations/#{locationId}/shortmenu",{},cb
 
   return c # Explicit return for readability - I know, but there are a lot of Coffeescript newbies out there.
