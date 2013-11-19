@@ -12,7 +12,7 @@ Creates a new client object.
 @option settings [String] signingKey the signingKey from singleplatform
 @option settings [String] referer a string that uniquely identifies you against singleplatform, like your company name. This will be sent along in the http referer header
 ###
-module.exports = client = (settings = {}) =>
+module.exports = client = (settings = {}) ->
   _.defaults settings, apiUri : "http://api.singleplatform.co"
   throw new Error "settings.clientId is a required parameter" unless settings.clientId
   throw new Error "settings.apiKey is a required parameter" unless settings.apiKey
@@ -20,7 +20,7 @@ module.exports = client = (settings = {}) =>
   throw new Error "settings.referer is a required parameter" unless settings.referer
 
 
-  _handleRequestResult = (err, res, bodyBeforeJson,cb) =>
+  _handleRequestResult = (err, res, bodyBeforeJson,cb) ->
         if err
            err.status = if res then res.statusCode || 500 else 500
            return cb err
