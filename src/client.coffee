@@ -19,6 +19,8 @@ module.exports = client = (settings = {}) ->
   throw new Error "settings.signingKey is a required parameter" unless settings.signingKey
   throw new Error "settings.referer is a required parameter" unless settings.referer
 
+  _normalizeQueryString = (query = '') ->
+    query = query.replace /\s/g, '+'
 
   _handleRequestResult = (err, res, bodyBeforeJson,cb) ->
         if err
@@ -87,6 +89,7 @@ module.exports = client = (settings = {}) ->
     _handleRequestResult : _handleRequestResult # for testing
     _invokeRequest : _invokeRequest # for testing
     _buildUri : _buildUri # for testing
+    _normalizeQueryString : _normalizeQueryString
 
     locations:
       ###
@@ -102,6 +105,8 @@ module.exports = client = (settings = {}) ->
       ###
       search: (q,page = 0,count = 20,updatedSince = null,cb) ->
         throw new Error "cb is a required parameter" unless cb and typeof cb is 'function'
+
+        q = _normalizeQueryString(q)
 
         queryString = 
           q : q
