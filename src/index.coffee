@@ -8,8 +8,7 @@ module.exports =
 
   ###
   The actual client. 
-  To be invoked like this:
-  @example
+  @example How to be used
     ```coffeescript
     singleplatform = require 'singleplatform'
     client = singleplatform.client 
