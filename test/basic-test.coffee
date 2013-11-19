@@ -21,7 +21,7 @@ describe 'WHEN loading the module', ->
     should.exist index
 
   if settings
-    console.log "SETTINGS LOADED FOR #{settings.referer} - LIVE TEST COMMENCING"
+    console.log "SETTINGS LOADED FOR #{settings.referer} - LIVE TEST"
 
     it 'should instantiate a client', ->
       client = index.client(settings)
@@ -34,7 +34,14 @@ describe 'WHEN loading the module', ->
 
     it 'should return search results', (cb) ->
       client = index.client(settings)
-      client.locations.search 'Los Angeles',0,20,null, (err,data) ->
-        console.log "RESULT: #{data}"
+      client.locations.search 'Haru',0,20,null, (err,data) ->
+        console.log "RESULT: #{JSON.stringify(data)}"
         cb err
+
+    it 'should return search results for queries with space in it.', (cb) ->
+      client = index.client(settings)
+      client.locations.search 'Haru Sushi',0,20,null, (err,data) ->
+        console.log "RESULT: #{JSON.stringify(data)}"
+        cb err
+
 

@@ -1,4 +1,7 @@
 {
 
-  
+  "clientId" : "",
+  "apiKey" : "",
+  "signingKey": "",
+  "referer" : "Some Guy"
 }

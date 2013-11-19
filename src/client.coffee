@@ -40,20 +40,26 @@ module.exports = client = (settings = {}) =>
 
   _buildUri = (path,queryString) ->
     step1 = "#{path}?#{qs.stringify(queryString)}"
-    console.log "Step1: #{step1}"
+    #console.log "Step1: #{step1}"
     
     signingKeyBinary = new Buffer(settings.signingKey, 'base64')
+    body = new Buffer(step1, 'utf8')
 
     hmac = crypto.createHmac('sha1',signingKeyBinary)
     hmac.setEncoding 'base64'
-    hmac.write step1
+    hmac.write body
     hmac.end()
     sig = hmac.read()
+    sig = sig.replace /\+/g, '-' # Format this nicely
+    sig = sig.replace /\//g, '_'
+    sig = sig.replace /\=$/, '' # Trailing=
+    
+    qs1 = qs.stringify(queryString)
+    qs1 += "&" unless qs1.length is 0
+    qs1 += "sig=#{sig}"
 
-    #console.log "STEP1 #{step1}"
-    queryString.sig = sig
-    step2 = "#{settings.apiUri}#{path}?#{qs.stringify(queryString)}"
-    console.log "Step2: #{step2}"
+    step2 = "#{settings.apiUri}#{path}?#{qs1}"
+    #console.log "Step2: #{step2}"
     step2
 
   ###
