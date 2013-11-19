@@ -7,6 +7,11 @@ Development sponsored by cuizini.com
 
 API client for the singleplatform.com API.
 
+TO RUN LIVE TEST:
+cp config/sample-for-test.json config/test.json
+fill in the values.
+npm test
+
 
 
 ### 0.2.0
