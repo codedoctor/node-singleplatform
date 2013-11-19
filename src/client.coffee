@@ -1,4 +1,7 @@
 _ = require 'underscore'
+request = require 'request'
+qs = require 'querystring'
+crypto = require 'crypto'
 
 ###
 Creates a new client object.
@@ -7,16 +10,78 @@ Creates a new client object.
 @option settings [String] clientId the clientId from singleplatform
 @option settings [String] apiKey the apiKey from singleplatform
 @option settings [String] signingKey the signingKey from singleplatform
-@option settings [String] referrer a string that uniquely identifies you against singleplatform, like your company name. This will be sent along in the http referrer header
+@option settings [String] referer a string that uniquely identifies you against singleplatform, like your company name. This will be sent along in the http referer header
 ###
 module.exports = client = (settings = {}) =>
   _.defaults settings, apiUri : "http://api.singleplatform.co"
   throw new Error "settings.clientId is a required parameter" unless settings.clientId
   throw new Error "settings.apiKey is a required parameter" unless settings.apiKey
   throw new Error "settings.signingKey is a required parameter" unless settings.signingKey
-  throw new Error "settings.referrer is a required parameter" unless settings.referrer
+  throw new Error "settings.referer is a required parameter" unless settings.referer
+
+
+  _handleRequestResult = (err, res, bodyBeforeJson,cb) =>
+        if err
+           err.status = if res then res.statusCode || 500 else 500
+           return cb err
+
+        return cb new Error "Access Denied with #{res.statusCode}" if res.statusCode is 401 or res.statusCode is 403
+
+        body = null
+
+        if bodyBeforeJson and bodyBeforeJson.length > 0
+          try
+            body = JSON.parse(bodyBeforeJson)
+          catch e
+            return cb( new Error("Invalid Body Content"), bodyBeforeJson, res.statusCode)
+
+        return cb(new Error(if body then body.message else "Request failed.")) unless res.statusCode >= 200 && res.statusCode < 300
+        cb null, body, res.statusCode
+
+  _buildUri = (path,queryString) ->
+    step1 = "#{path}?#{qs.stringify(queryString)}"
+    console.log "Step1: #{step1}"
+    
+    signingKeyBinary = new Buffer(settings.signingKey, 'base64')
+
+    hmac = crypto.createHmac('sha1',signingKeyBinary)
+    hmac.setEncoding 'base64'
+    hmac.write step1
+    hmac.end()
+    sig = hmac.read()
+
+    #console.log "STEP1 #{step1}"
+    queryString.sig = sig
+    step2 = "#{settings.apiUri}#{path}?#{qs.stringify(queryString)}"
+    console.log "Step2: #{step2}"
+    step2
+
+  ###
+  Calls the API. 
+  @param [String] path the path segment of the query, like /locations/search. Must start with /. No trailing /
+  ###
+  _invokeRequest = (path = "",queryString = {},cb) ->
+    headers =
+      'Content-Type': 'application/json'
+      'Accept' : 'application/json'
+      'Referrer' : settings.referer
+      'Referer' : settings.referer
+
+    queryString.client = settings.clientId
+
+    request
+        uri: _buildUri(path,queryString)
+        headers: headers
+        method: "GET"
+       , (err, res, bodyBeforeJson) -> _handleRequestResult err, res, bodyBeforeJson,cb
+
+
 
   c = 
+    _handleRequestResult : _handleRequestResult # for testing
+    _invokeRequest : _invokeRequest # for testing
+    _buildUri : _buildUri # for testing
+
     locations:
       ###
       Returns search results 
@@ -31,7 +96,14 @@ module.exports = client = (settings = {}) =>
       ###
       search: (q,page = 0,count = 20,updatedSince = null,cb) ->
         throw new Error "cb is a required parameter" unless cb
-        cb null
+
+        queryString = 
+          q : q
+          page : page
+          count : count
+        queryString.updatedSince = updatedSince if updatedSince
+
+        _invokeRequest "/locations/search",queryString,cb
 
       ###
       Returns location information for the specified location id.
