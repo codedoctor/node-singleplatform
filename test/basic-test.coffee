@@ -84,3 +84,19 @@ describe 'WHEN loading the module', ->
       client.locationMatch matchData, (err,data) ->
         console.log "RESULT: #{JSON.stringify(data)}"
         cb err
+
+    it 'should geomatch', (cb) ->
+      client = index.client(settings)
+      matchData = 
+        locations:[
+            {"latitude":38.789839,
+            "longitude":-77.064791,
+            "name":"Juliano's Pizzeria"}
+          ], "matching_criteria":"NAME_GEOLOCATION","geo_radius":"0.01"
+
+
+      client.locationMatch matchData, (err,data) ->
+        console.log "RESULT: #{JSON.stringify(data)}"
+        cb err
+
+
